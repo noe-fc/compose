@@ -9,4 +9,4 @@ services:
     image: noefc/api
     network_mode: "host"
     volumes:
-     - /src/config:./apiconfig
+     - ./apiconfig:/src/config

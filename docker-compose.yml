@@ -1,12 +1,19 @@
-web:
-  image: noefc/client
-  links:
-   - api:api
-  ports:
-   - 80:80
-
-api:
-  image: noefc/api
-  network_mode: "host"
-  volumes:
-   - /src/config:./apiconfig
+version: "3"
+services:
+  web:
+    image: noefc/client
+    ports:
+      - 80:80
+    restart_policy:
+      condition: on-failure
+    networks:
+      - prod
+  api:
+    image: noefc/api
+    network_mode: "host"
+    networks:
+      - prod
+    volumes:
+     - /src/config:./apiconfig
+networks:
+  prod:

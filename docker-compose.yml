@@ -1,4 +1,12 @@
 web:
   image: noefc/client
+  links:
+   - api:api
   ports:
    - 80:80
+
+api:
+  image: noefc/api
+  network_mode: "host"
+  volumes:
+   - /src/config:./apiconfig

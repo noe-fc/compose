@@ -1,21 +1,12 @@
 version: "3"
 services:
-  proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - 80:80
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
   web:
     image: noefc/client
     network_mode: "host"
-    environment:
-      - VIRTUAL_HOST:cerberus-noe.fr,www.cerberus-noe.fr
+    ports:
+      - 80:80
   api:
     image: noefc/api
     network_mode: "host"
     volumes:
-      - ./apiconfig:/src/config
-    environments:
-      - VIRTUAL_HOST:api.cerberus-noe.fr
+     - ./apiconfig:/src/config

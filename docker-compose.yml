@@ -14,8 +14,6 @@ services:
       - VIRTUAL_HOST=www.cerberus-noe.fr, cerberus-noe.fr
   api:
     image: noefc/api
-    ports:
-      - 80:3000
     networks:
       - frontend
       - backend

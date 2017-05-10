@@ -2,36 +2,30 @@ version: "3"
 services:
   proxy:
     image: jwilder/nginx-proxy
+    depends_on:
+      - app
+      - api
     ports:
       - 80:80
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    networks:
-      - frontend
   app:
     image: noefc/client
-    networks:
-      - frontend
     environment:
       - VIRTUAL_HOST=www.cerberus-noe.fr, cerberus-noe.fr
   api:
     image: noefc/api
-    networks:
-      - frontend
-      - backend
+    links:
+      - db
     volumes:
-      - ./apiconfig:/src/config
+      - ./apiconfig:/app/src/config
     environment:
       - VIRTUAL_HOST=api.cerberus-noe.fr
+      - WAIT_HOSTS=db:3306
   db:
     image: mariadb
-    networks:
-      - backend
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=noe
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
-networks:
-  frontend:
-  backend:
+      - /var/noe/mysql:/var/lib/mysql
